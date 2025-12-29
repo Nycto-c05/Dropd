@@ -1,0 +1,41 @@
+services:
+  minio:
+    image: minio/minio
+    pull_policy: missing
+    container_name: minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: nycto
+      MINIO_ROOT_PASSWORD: nycto1234
+    volumes:
+      - minio_data:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    networks:
+      - mynet
+    
+  postgres:
+    image: postgres
+    pull_policy: missing
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: paste
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - db-data:/var/lib/postgresql
+      - ./scripts:/docker-entrypoint-initdb.d
+    restart: unless-stopped
+    networks:
+      - mynet
+
+networks:
+  mynet:
+    driver: bridge
+
+volumes:
+  minio_data:
+  db-data:
+
