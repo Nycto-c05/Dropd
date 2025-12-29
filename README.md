@@ -1,4 +1,4 @@
-# DropD - Minimal Text Storage as a Service
+# Dropd - Minimal Text Storage as a Service
 
 ## Features
 
